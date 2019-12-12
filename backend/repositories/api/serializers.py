@@ -1,9 +1,14 @@
 from rest_framework import serializers
 
-from repositories.models import Repository
+from repositories.models import Repository, Commit
 
-class RepositorySerializer(serializers.HyperlinkedModelSerializer):
+class RepositorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Repository
-        fields = ('full_name', 'name')
+        fields =  '__all__'
+
+class CommitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Commit
+        fields = '__all__'
 

@@ -3,16 +3,7 @@ import axios from 'axios';
 
 import { List, Avatar } from 'antd';
 
-const Commit = (props) => {
-  const [commits, setCommits] = useState([]);
-
-  useEffect(() => {
-    axios('http://127.0.0.1:8000/api/', { method: 'GET' })
-      .then((res) => {
-        setCommits(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+const Commit = ({commits}) => {
 
   return (
     <List
@@ -24,7 +15,7 @@ const Commit = (props) => {
             avatar={
               <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
             }
-            title={<a href="https://ant.design">{item.fullname}</a>}
+            title={<a href="https://ant.design">{item.message}</a>}
             description="Ant Design, a design language for background applications, is refined by Ant UED Team"
           />
         </List.Item>
