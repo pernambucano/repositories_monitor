@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { List, Avatar } from 'antd';
 
-const Commits = (props) => {
+const Commit = (props) => {
   const [commits, setCommits] = useState([]);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const Commits = (props) => {
   );
 };
 
-export default Commits;
+export default Commit;

@@ -5,11 +5,11 @@ import '../sass/style.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-import { createStore, applyMiddleware} from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './App';
-import authReducer from './store/reducers/auth';
+import authReducer from './app/repositories-monitor/store/reducers/auth';
 import thunk from 'redux-thunk';
 
 const store = createStore(authReducer, applyMiddleware(thunk));

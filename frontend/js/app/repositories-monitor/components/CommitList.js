@@ -1,5 +1,5 @@
 import React from 'react';
-import Commits from './Commits';
+import Commit from './Commit';
 
 const data = [
   {
@@ -16,9 +16,13 @@ const data = [
   },
 ];
 const CommitList = (props) => {
-	return (
-		<Commits data={data}/>
-	);
-}
+  return (
+    <div>
+      {data.map((d) => (
+        <Commit data={d} key={d.title} />
+      ))}
+    </div>
+  );
+};
 
 export default CommitList;

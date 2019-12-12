@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from repositories_app.models import Repository
+from repositories.models import Repository
 
 class RepositorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

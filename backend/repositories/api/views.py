@@ -3,9 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 
-from repositories_app.models import Repository
+from repositories.models import Repository
 from .serializers import RepositorySerializer
-from repositories_app.services import get_repo_info
+from repositories.services import get_repo_info
 
 class RepositoryListView(ListAPIView):
     queryset = Repository.objects.all()

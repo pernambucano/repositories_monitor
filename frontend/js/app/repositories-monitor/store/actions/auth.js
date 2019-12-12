@@ -1,6 +1,6 @@
 import actionTypes from './actionTypes';
 import authService from '../../services/auth';
-import history from '../../history';
+import history from '../../../../history';
 
 export const authStart = () => {
   return {
