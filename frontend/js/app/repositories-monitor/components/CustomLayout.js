@@ -7,16 +7,19 @@ const { Header, Content, Footer } = Layout;
 const CustomLayout = (props) => {
   return (
     <Layout className="layout">
-      <Header>
+      <Header >
         <div className="logo" />
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={['2']}
           style={{ lineHeight: '64px' }}
         >
           <Menu.Item key="/">
             <Link to="/">Home</Link>
+          </Menu.Item>
+			
+			<Menu.Item key="/logout" style={{float: "right"}}>
+			  <Link to="/logout"> Logout </Link>
           </Menu.Item>
         </Menu>
       </Header>

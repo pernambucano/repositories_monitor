@@ -49,9 +49,16 @@ export const authLogin = () => {
 };
 
 export const authLogout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('api-token');
   return {
     type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+export const authLogoutAndRedirect = () => {
+  return (dispatch) => {
+    dispatch(authLogout());
+    history.push('/');
   };
 };
 
