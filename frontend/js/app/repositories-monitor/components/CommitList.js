@@ -47,11 +47,10 @@ const CommitList = (props) => {
                 tokenSeparators={[',']}
                 placeholder="Digite aqui os repositórios"
                 onSelect={(input) => {
-					
-					const existsAlreadyOnState = props.repository.find(r => r.repository == input);
-					if (!existsAlreadyOnState){
-                  props.initializeRepository(input);
-					}
+                  const existsAlreadyOnState = props.repository.find((r) => r.repository == input);
+                  if (!existsAlreadyOnState) {
+                    props.initializeRepository(input);
+                  }
                 }}
                 onDeselect={(input) => console.log(`onDeselect, ${input}`)}
               />

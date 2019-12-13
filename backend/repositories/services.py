@@ -1,6 +1,6 @@
 from github import Github
 from users.models import User
-from .models import Commit, Repository, Contributor
+from .models import Commit, Repository
 
 def get_repo_info(repository_path, token):
     git = Github(token)
@@ -30,4 +30,7 @@ def save_commits( commits_request, repo ):
         commit.message = commit_r.commit.message
         commit.repository = repo
         commit.save()
+
+
+
 

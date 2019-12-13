@@ -8,6 +8,8 @@ class RepositorySerializer(serializers.ModelSerializer):
         fields =  '__all__'
 
 class CommitSerializer(serializers.ModelSerializer):
+    repository = serializers.StringRelatedField()
+
     class Meta:
         model = Commit
         fields = '__all__'
