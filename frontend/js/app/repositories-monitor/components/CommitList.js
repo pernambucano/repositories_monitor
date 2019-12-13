@@ -40,16 +40,12 @@ const CommitList = (props) => {
               <Select
                 mode="tags"
                 tokenSeparators={[',']}
-                placeholder="Digite aqui os repositórios"
+                placeholder="Digite aqui os repositórios no formato organização/repositorio"
                 onSelect={(input) => {
-                  console.log('props.repository', props.repository);
-                  console.log('input', input);
                   const existsAlreadyOnState = props.originalCommitList.find((r) => r.repository == input);
-                  console.log('does it exist already?', existsAlreadyOnState);
                   if (!existsAlreadyOnState) {
                     props.initializeRepository(input);
                   } else {
-					  console.log('making data visible')
                     props.showRepositoryData(input);
                   }
                 }}
@@ -70,12 +66,9 @@ const CommitList = (props) => {
 };
 
 const filterData = (commitList, deselectedItems) => {
-	console.log('commitList', commitList)
-	console.log('deselectedItems', deselectedItems)
   const listWithKeys = commitList.map((d) => {
     return { ...d, key: d.sha };
   });
-	console.log('listWithKeys', listWithKeys)
 
   if (deselectedItems.length > 0) {
     return listWithKeys.filter((f) => !deselectedItems.includes(f.repository));

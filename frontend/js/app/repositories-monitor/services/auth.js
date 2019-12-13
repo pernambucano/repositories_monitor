@@ -35,7 +35,7 @@ const authCallback = (location) => {
     data: {
       provider: 'github',
       code: code,
-      redirect_uri: 'http://127.0.0.1:8000/oauth-callback/',
+      redirect_uri: 'https://repomonitor.herokuapp.com/oauth-callback',
     },
   });
 };
@@ -43,7 +43,7 @@ const authCallback = (location) => {
 const authLogin = () => {
   const qParams = [
     `client_id=ccd788cca74befc2954d`,
-    `redirect_uri=http://127.0.0.1:8000/oauth-callback/`,
+    `redirect_uri=https://repomonitor.herokuapp.com/oauth-callback`,
     `scope=repo`,
     `state=github`,
   ].join('&');

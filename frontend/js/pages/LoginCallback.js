@@ -7,7 +7,6 @@ import { compose } from 'redux';
 
 const LoginCallback = (props) => {
   useEffect(() => {
-    console.log('props', props);
     props.authCallback(props.location); 
   }, []);
   return <h1>Loading...</h1>;
