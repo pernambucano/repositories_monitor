@@ -1,10 +1,11 @@
 import React from 'react';
 import Commit from './Commit';
+import { connect } from 'react-redux';
+import { initializeRepository } from '../store/actions/repository';
 
-import { Table, Select } from 'antd';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Table, Select, Col, Row } from 'antd';
 const { Option } = Select;
-const CommitList = ({ data }) => {
+const CommitList = (props) => {
   const columns = [
     {
       title: 'sha',
@@ -24,47 +25,65 @@ const CommitList = ({ data }) => {
     },
   ];
 
-  const children = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>); // TODO repositories of this user
-  }
-
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
 
   function handleOnSubmit(event) {
-	  event.preventDefault()
+    event.preventDefault();
 
-    console.log('onSubmit' );
+    console.log('onSubmit');
   }
 
-  const new_data = data.map((d) => {
-    return { ...d, key: d.sha };
-  });
   return (
     <div>
-      <Form style={{ width: '100%' }} onSubmit={handleOnSubmit}>
-        <Form.Item>
-          <Select
-            mode="tags"
-            style={{ width: '100%' }}
-            onChange={handleChange}
-            tokenSeparators={[',']}
-          >
-            {children}
-          </Select>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" icon="search">
-            Search
-          </Button>
-        </Form.Item>
-      </Form>
+      <Row>
+        <Col span={18} offset={3}>
+          <Form onSubmit={handleOnSubmit}>
+            <Form.Item>
+              <Select
+                mode="tags"
+                onChange={handleChange}
+                tokenSeparators={[',']}
+                placeholder="Digite aqui os repositórios"
+                onSelect={(input) => {
+					
+					const existsAlreadyOnState = props.repository.find(r => r.repository == input);
+					if (!existsAlreadyOnState){
+                  props.initializeRepository(input);
+					}
+                }}
+                onDeselect={(input) => console.log(`onDeselect, ${input}`)}
+              />
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
 
-      <Table columns={columns} dataSource={new_data} size="middle" />
+      <Row>
+        <Table columns={columns} dataSource={props.repository} size="middle" />
+      </Row>
     </div>
   );
 };
 
-export default CommitList;
+const addKeyToCommitList = (commitList) => {
+  return commitList.map((d) => {
+    return { ...d, key: d.sha };
+  });
+};
+
+const mapStateToProps = (state) => {
+  const repository = addKeyToCommitList(state.repository);
+  return {
+    repository: repository,
+  };
+};
+const mapDispatchToProps = {
+  initializeRepository,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommitList);

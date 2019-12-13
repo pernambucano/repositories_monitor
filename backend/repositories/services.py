@@ -2,11 +2,9 @@ from github import Github
 from users.models import User
 from .models import Commit, Repository, Contributor
 
-def get_repo_info(repository_name, token):
+def get_repo_info(repository_path, token):
     git = Github(token)
-    user = git.get_user()
-    repository = git.get_repo(f'{user.login}/{repository_name}')
-    return repository
+    return git.get_repo(repository_path)
 
 def save_repo(repo_request):
     Repository.objects.filter(full_name=repo_request.full_name).delete()
@@ -19,10 +17,9 @@ def save_repo(repo_request):
 
     return repo
 
-def get_commits(repository_name, token):
+def get_commits(repository_path, token):
     git = Github(token)
-    user = git.get_user()
-    repository = git.get_repo(f'{user.login}/{repository_name}')
+    repository = git.get_repo(repository_path)
     return repository.get_commits()
 
 def save_commits( commits_request, repo ):
