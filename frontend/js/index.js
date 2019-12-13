@@ -13,10 +13,12 @@ import App from './App';
 import authReducer from './app/repositories-monitor/store/reducers/auth';
 import thunk from 'redux-thunk';
 import repositoryReducer from './app/repositories-monitor/store/reducers/repository';
+import visibilityFilterReducer from './app/repositories-monitor/store/reducers/visibilityFilter';
 
 const reducer = combineReducers({
 	auth: authReducer,
-	repository: repositoryReducer
+	repository: repositoryReducer,
+	visibilityFilter: visibilityFilterReducer
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

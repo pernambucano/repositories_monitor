@@ -62,4 +62,4 @@ class CommitListView(ListAPIView):
         commits_request = get_commits(repository_name, access_token) # TODO singleton for github?
         save_commits(commits_request, repo)
 
-        return Commit.objects.all()
+        return Commit.objects.filter(repository=repo.id)

@@ -1,7 +1,13 @@
 import React from 'react';
 import Commit from './Commit';
 import { connect } from 'react-redux';
-import { initializeRepository } from '../store/actions/repository';
+import {
+  initializeRepository,
+} from '../store/actions/repository';
+import {
+  hideRepositoryData,
+  showRepositoryData,
+} from '../store/actions/visibilityFilter'
 
 import { Form, Icon, Input, Button, Table, Select, Col, Row } from 'antd';
 const { Option } = Select;
@@ -25,34 +31,31 @@ const CommitList = (props) => {
     },
   ];
 
-  function handleChange(value) {
-    console.log(`selected ${value}`);
-  }
-
-  function handleOnSubmit(event) {
-    event.preventDefault();
-
-    console.log('onSubmit');
-  }
-
   return (
     <div>
       <Row>
         <Col span={18} offset={3}>
-          <Form onSubmit={handleOnSubmit}>
+          <Form>
             <Form.Item>
               <Select
                 mode="tags"
-                onChange={handleChange}
                 tokenSeparators={[',']}
                 placeholder="Digite aqui os repositórios"
                 onSelect={(input) => {
-                  const existsAlreadyOnState = props.repository.find((r) => r.repository == input);
+                  console.log('props.repository', props.repository);
+                  console.log('input', input);
+                  const existsAlreadyOnState = props.originalCommitList.find((r) => r.repository == input);
+                  console.log('does it exist already?', existsAlreadyOnState);
                   if (!existsAlreadyOnState) {
                     props.initializeRepository(input);
+                  } else {
+					  console.log('making data visible')
+                    props.showRepositoryData(input);
                   }
                 }}
-                onDeselect={(input) => console.log(`onDeselect, ${input}`)}
+                onDeselect={(input) => {
+                  props.hideRepositoryData(input);
+                }}
               />
             </Form.Item>
           </Form>
@@ -66,20 +69,32 @@ const CommitList = (props) => {
   );
 };
 
-const addKeyToCommitList = (commitList) => {
-  return commitList.map((d) => {
+const filterData = (commitList, deselectedItems) => {
+	console.log('commitList', commitList)
+	console.log('deselectedItems', deselectedItems)
+  const listWithKeys = commitList.map((d) => {
     return { ...d, key: d.sha };
   });
+	console.log('listWithKeys', listWithKeys)
+
+  if (deselectedItems.length > 0) {
+    return listWithKeys.filter((f) => !deselectedItems.includes(f.repository));
+  } else {
+    return listWithKeys;
+  }
 };
 
 const mapStateToProps = (state) => {
-  const repository = addKeyToCommitList(state.repository);
+  const filteredCommitList = filterData(state.repository, state.visibilityFilter);
   return {
-    repository: repository,
+    repository: filteredCommitList,
+    originalCommitList: state.repository,
   };
 };
 const mapDispatchToProps = {
   initializeRepository,
+  hideRepositoryData,
+  showRepositoryData,
 };
 
 export default connect(
