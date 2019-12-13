@@ -15,34 +15,6 @@ class RepositoryDetailView(RetrieveAPIView):
     queryset = Repository.objects.all()
     serializer_class = RepositorySerializer
 
-#class TestView(APIView):
-#    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
-#    permission_classes = [permissions.AllowAny]
-#    def get(self, request, format=None):
-#        try: 
-#            user = request.user
-#            social = user.social_auth.get(provider='github')
-#            access_token = social.extra_data['access_token']
-##            user_info, repo_info = get_repo_info(access_token)
-##            commit_list = [ c.commit.message for c in  repo_info.get_commits()]
-##            return Response({'user': user_info.login, 'commits': commit_list})
-#            console.log(request.query_params.get('repository-name', None))
-#            repository_name = request.query_params.get('repository-name', None)
-#
-#            repo_request = get_repo_info(repository_name, access_token)
-#            repo = save_repo(repo_request)
-#
-#            commits_request = get_commits(repository_name, access_token) # TODO singleton for github?
-#            save_commits(commits_request, repo)
-#
-#            commits = Commit.objects.all()
-#
-#            serializer = CommitSerializer(commits, many=True)
-#
-#            return Response(serializer.data)
-#        except:
-#            return Response('Not Found')
-
 
 class CommitListView(ListAPIView):
     model = Commit
