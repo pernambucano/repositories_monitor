@@ -23,7 +23,6 @@ const isAuthenticated = () => {
 
 // TODO intercept axios calls to add header
 const authCallback = (location) => {
-  console.log(location);
   const code = (location.search.match(/code=([^&]+)/) || [])[1];
   const state = (location.search.match(/state=([^&]+)/) || [])[1];
   const csrftoken = Cookie.get('csrftoken');
