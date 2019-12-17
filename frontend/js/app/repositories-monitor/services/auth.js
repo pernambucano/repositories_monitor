@@ -1,8 +1,8 @@
 import axios from 'axios';
-const baseUrl = 'https://repomonitor.herokuapp.com';
+const baseUrl = 'http://localhost:8000';
+const clientId = '40192304617cf91a314d';
 import Cookie from 'js-cookie';
 import { Redirect } from 'react-router-dom';
-
 
 const TOKEN_KEY = 'api-token';
 
@@ -23,6 +23,7 @@ const isAuthenticated = () => {
 
 // TODO intercept axios calls to add header
 const authCallback = (location) => {
+  console.log(location);
   const code = (location.search.match(/code=([^&]+)/) || [])[1];
   const state = (location.search.match(/state=([^&]+)/) || [])[1];
   const csrftoken = Cookie.get('csrftoken');
@@ -43,7 +44,7 @@ const authCallback = (location) => {
 
 const authLogin = () => {
   const qParams = [
-    `client_id=ccd788cca74befc2954d`,
+    `client_id=${clientId}`,
     `redirect_uri=${baseUrl}/oauth-callback`,
     `scope=repo`,
     `state=github`,
