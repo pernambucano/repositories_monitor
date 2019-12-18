@@ -1,6 +1,7 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 import json
+from django.conf import settings
 
 
 class RepositoryConsumer(AsyncJsonWebsocketConsumer):
@@ -59,6 +60,10 @@ class RepositoryConsumer(AsyncJsonWebsocketConsumer):
 
     async def repo_message(self, event):
         await self.send_json(
-            {"msg_type": "0", "repo": event["repo_id"], "message": event["message"],}
+            {
+                "msg_type": settings.MSG_TYPE_MESSAGE,
+                "repo": event["repo_id"],
+                "message": event["message"],
+            }
         )
 

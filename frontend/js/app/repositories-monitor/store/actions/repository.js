@@ -29,8 +29,6 @@ export const makeRepositoryVisible = (repositoryPath) => {
 
 export const updateRepository = (updateData) => {
   if (updateData !== undefined) {
-
-
     const formattedUpdateData = updateData.commits.map(data => {
       return {
         sha: data.id,
