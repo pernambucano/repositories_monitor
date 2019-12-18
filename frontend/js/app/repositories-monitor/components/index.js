@@ -3,7 +3,7 @@ import Commit from './Commit';
 import CommitList from './CommitList';
 
 export default {
-	CustomLayout,
-	Commit,
-	CommitList
-}
+  CustomLayout,
+  Commit,
+  CommitList,
+};

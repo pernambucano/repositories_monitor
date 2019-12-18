@@ -21,7 +21,7 @@ ADMINS = (("Admin", "demelofernandes.paulo@gmail.com"),)
 
 AUTH_USER_MODEL = "users.User"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["ce50e772.ngrok.io", "localhost"]
 
 INSTALLED_APPS = [
     "channels",
@@ -152,6 +152,7 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "http://7aa7b77e.ngrok.io",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

@@ -22,6 +22,7 @@ class RepositoryConsumer(AsyncJsonWebsocketConsumer):
     async def receive_json(self, content):
         print("RECEIVING")
         command = content.get("command", None)
+        print("COMMAND " + command)
         try:
             if command == "add":
                 await self.add_repo(content.get("repo"))
@@ -53,21 +54,11 @@ class RepositoryConsumer(AsyncJsonWebsocketConsumer):
         group_name = repo_id.replace("/", "_")
         await self.channel_layer.group_send(
             group_name,
-            {
-                "type": "repo.message",
-                "repo_id": repo_id,
-                "username": self.scope["user"].username,
-                "message": message,
-            },
+            {"type": "repo.message", "repo_id": repo_id, "message": message,},
         )
 
     async def repo_message(self, event):
         await self.send_json(
-            {
-                "msg_type": "0",
-                "repo": event["repo_id"],
-                "username": event["username"],
-                "message": event["message"],
-            }
+            {"msg_type": "0", "repo": event["repo_id"], "message": event["message"],}
         )
 

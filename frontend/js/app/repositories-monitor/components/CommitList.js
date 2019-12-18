@@ -48,18 +48,13 @@ const CommitList = (props) => {
       JSON.stringify({ command: 'send', repo: 'pernambucano/catinabox', message: 'hello world' })
     );
   };
-  const addRepo = () => {
-    client.send(JSON.stringify({ command: 'add', repo: 'pernambucano/catinabox' }));
-  };
+  const addRepo = () => {};
   const removeRepo = () => {
     client.send(JSON.stringify({ command: 'remove', repo: 'pernambucano/catinabox' }));
   };
 
   return (
     <div>
-      <button onClick={sendMessage}>Send MSG</button>
-      <button onClick={addRepo}>Add Repo</button>
-      <button onClick={removeRepo}>Remove Repo</button>
       <Row>
         <Col span={18} offset={3}>
           <Form>
@@ -67,12 +62,14 @@ const CommitList = (props) => {
               <Select
                 mode="tags"
                 tokenSeparators={[',']}
-                placeholder="Digite aqui os repositórios no formato organização/repositorio"
+                placeholder="Digite aqui os repositórios no formato organização/repositório"
                 onSelect={(input) => {
                   const existsAlreadyOnState = props.originalCommitList.find(
                     (r) => r.repository == input
                   );
                   if (!existsAlreadyOnState) {
+                    // TODO how to verify if this item is useful ?
+                    client.send(JSON.stringify({ command: 'add', repo: input }));
                     props.initializeRepository(input);
                   } else {
                     props.showRepositoryData(input);
