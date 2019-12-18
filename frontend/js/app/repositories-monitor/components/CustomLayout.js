@@ -1,36 +1,123 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
+import { ThemeProvider } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import { Link as RouterLink } from 'react-router-dom';
 
-const { Header, Content, Footer } = Layout;
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Repositories Monitor
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#ffffff' },
+    secondary: { main: '#205C89' }
+  }
+});
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  appBar: {
+    backgroundColor: "black",
+  },
+  logout: {
+    float: "right",
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    marginTop: theme.spacing(2),
+  },
+}));
 
 const CustomLayout = (props) => {
+  const classes = useStyles();
   return (
-    <Layout className="layout">
-      <Header >
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          style={{ lineHeight: '64px' }}
-        >
-          <Menu.Item key="/">
-            <Link to="/">Home</Link>
-          </Menu.Item>
-			
-			<Menu.Item key="/logout" style={{float: "right"}}>
-			  <Link to="/logout"> Logout </Link>
-          </Menu.Item>
-        </Menu>
-      </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-        </Breadcrumb>
-        <div>{props.children}</div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-    </Layout>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="relative" className={classes.appBar}>
+        <Toolbar>
+          <Grid
+            justify="space-between" // Add it here :)
+            container
+          >
+            <Grid item>
+              <RouterLink to="/">< Typography variant="h6" color="primary" noWrap>Home  </Typography></RouterLink>
+            </Grid>
+            <Grid item>
+              <RouterLink to="/logout">  <Typography variant="h6" color="primary" noWrap>Logout   </Typography></RouterLink>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      <main>
+        {/* Hero unit */}
+        {/* <div className={classes.heroContent}> */}
+        <Container>
+          <div className={classes.root}>
+            <Grid container>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  {props.children}
+                </Paper>
+              </Grid>
+            </Grid>
+          </div>
+        </Container>
+        {/* </div> */}
+      </main>
+      {/* Footer */}
+      <footer className={classes.footer}>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          Made with &#60;3 in Recife!
+        </Typography>
+      </footer>
+      {/* End footer */}
+    </ThemeProvider>
   );
 };
 
