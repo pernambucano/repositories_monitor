@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 import maya
+import datetime
 
 from repositories.models import Repository, Commit
 from .serializers import RepositorySerializer, CommitSerializer
@@ -48,7 +49,11 @@ class CommitListView(ListAPIView):
         commits_request = get_commits(repository_name, access_token)
         save_commits(commits_request, repo)
 
-        return Commit.objects.filter(repository=repo.id)
+        return Commit.objects.filter(
+            repository=repo.id,
+            date__lte=datetime.datetime.today(),
+            date__gte=datetime.datetime.today() - datetime.timedelta(days=30),
+        )
 
 
 class WebhookView(APIView):
