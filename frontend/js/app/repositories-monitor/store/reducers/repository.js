@@ -1,8 +1,8 @@
-import * as actionTypes from '../actions/actionTypes';
+import actionTypes from '../actions/actionTypes';
 
 const repositoryReducer = (state = [], action) => {
   switch (action.type) {
-    case 'INIT_REPOSITORY_DATA':
+    case actionTypes.UPDATE_REPOSITORY_DATA:
       return [...state, ...action.data];
     default:
       return state;

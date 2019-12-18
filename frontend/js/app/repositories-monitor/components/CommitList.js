@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Commit from './Commit';
 import { connect } from 'react-redux';
-import { initializeRepository } from '../store/actions/repository';
+import { initializeRepository, updateRepository } from '../store/actions/repository';
 import { hideRepositoryData, showRepositoryData } from '../store/actions/visibilityFilter';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
@@ -9,20 +9,23 @@ import { Form, Icon, Input, Button, Table, Select, Col, Row } from 'antd';
 const { Option } = Select;
 const CommitList = (props) => {
   const client = new W3CWebSocket('ws://localhost:8000/ws/repository');
-  useEffect(() => {
-    client.onopen = () => {
-      console.log('connected');
-    };
 
-    client.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      console.log('message received ' + message);
-    };
+  client.onopen = () => {
+    console.log('connected');
+  };
 
-    client.onclose = () => {
-      console.log('closed');
-    };
-  }, []);
+  client.onmessage = (event) => {
+    const response = JSON.parse(event.data);
+    // Update store
+
+    if (response !== undefined && response.message != undefined) {
+      props.updateRepository(response.message);
+    }
+  };
+
+  client.onclose = () => {
+    console.log('closed');
+  };
 
   const columns = [
     {
@@ -48,7 +51,7 @@ const CommitList = (props) => {
       JSON.stringify({ command: 'send', repo: 'pernambucano/catinabox', message: 'hello world' })
     );
   };
-  const addRepo = () => {};
+  const addRepo = () => { };
   const removeRepo = () => {
     client.send(JSON.stringify({ command: 'remove', repo: 'pernambucano/catinabox' }));
   };
@@ -112,6 +115,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   initializeRepository,
+  updateRepository,
   hideRepositoryData,
   showRepositoryData,
 };

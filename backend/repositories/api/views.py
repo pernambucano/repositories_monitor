@@ -2,6 +2,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
+import maya
 
 from repositories.models import Repository, Commit
 from .serializers import RepositorySerializer, CommitSerializer
@@ -60,7 +61,11 @@ class WebhookView(APIView):
         cl = get_channel_layer()
         async_to_sync(cl.group_send)(
             repository_name_group,
-            {"type": "repo.message", "repo_id": repository_name, "message": commits,},
+            {
+                "type": "repo.message",
+                "repo_id": repository_name,
+                "message": request.data,
+            },
         )
 
         # TODO save to db
@@ -70,7 +75,7 @@ class WebhookView(APIView):
                 Commit(
                     **{
                         "sha": c["id"],
-                        "date": c["timestamp"],
+                        "date": maya.parse(c["timestamp"]).datetime(),
                         "message": c["message"],
                         "repository": repo,
                     }
