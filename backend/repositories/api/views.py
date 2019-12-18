@@ -58,36 +58,39 @@ class CommitListView(ListAPIView):
 
 class WebhookView(APIView):
     def post(self, request, format=None):
-        print(">>> Called WebhookView")
         repository_name = request.data["repository"]["full_name"]
         repository_name_group = repository_name.replace("/", "_")
         commits = request.data.get("commits", None)
+        try:
 
-        cl = get_channel_layer()
-        async_to_sync(cl.group_send)(
-            repository_name_group,
-            {
-                "type": "repo.message",
-                "repo_id": repository_name,
-                "message": request.data,
-            },
-        )
+            cl = get_channel_layer()
+            async_to_sync(cl.group_send)(
+                repository_name_group,
+                {
+                    "type": "repo.message",
+                    "repo_id": repository_name,
+                    "message": request.data,
+                },
+            )
 
-        # TODO save to db
-        repo = Repository.objects.get(full_name=repository_name)
-        Commit.objects.bulk_create(
-            [
-                Commit(
-                    **{
-                        "sha": c["id"],
-                        "date": maya.parse(c["timestamp"]).datetime(),
-                        "message": c["message"],
-                        "repository": repo,
-                    }
+            if request.Meta.get("X-Github-Event") == "push":
+                repo = Repository.objects.get(full_name=repository_name)
+                Commit.objects.bulk_create(
+                    [
+                        Commit(
+                            **{
+                                "sha": c["id"],
+                                "date": maya.parse(c["timestamp"]).datetime(),
+                                "message": c["message"],
+                                "repository": repo,
+                            }
+                        )
+                        for c in commits
+                    ]
                 )
-                for c in commits
-            ]
-        )
+
+        except:
+            return Response({"ok": False})
 
         return Response({"ok": True})
 
