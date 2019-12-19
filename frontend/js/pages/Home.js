@@ -7,8 +7,7 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { updateRepository } from '../app/repositories-monitor/store/actions/repository'
 
 const Home = (props) => {
-  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  var ws_path = ws_scheme + '://' + window.location.host + "/ws/repository";
+  var ws_path = ws_scheme + 'ws://' + window.location.host + "/ws/repository";
   const websocketClient = new W3CWebSocket(ws_path);
   useEffect(() => {
     websocketClient.addEventListener("message", (event) => {
