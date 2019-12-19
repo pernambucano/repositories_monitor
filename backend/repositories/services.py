@@ -2,7 +2,6 @@ from github import Github
 from github.GithubException import GithubException
 from users.models import User
 from .models import Commit, Repository
-from decouple import config
 
 ENDPOINT = "webhook"
 
@@ -48,10 +47,10 @@ def save_commits(commits_request, repo):
 def add_webhook(repository_path, token):
     git = Github(token)
     EVENTS = ["push", "pull_request"]
-    HOST = config("HOST")
+    HOST = "https://repomonitor.herokuapp.com/"  # TODO use config
     try:
         config = {
-            "url": "http://{host}/api/{endpoint}".format(host=HOST, endpoint=ENDPOINT),
+            "url": "https://{host}/api/{endpoint}".format(host=HOST, endpoint=ENDPOINT),
             "content_type": "json",
         }
 
