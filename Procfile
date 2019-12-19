@@ -1,2 +1,2 @@
-web: gunicorn repositories_monitor.wsgi --chdir backend --limit-request-line 8188 --log-file -
-worker: celery worker --workdir backend --app=repositories_monitor --loglevel=info
+web: daphne repositories_monitor.asgi:application --port $PORT --bind 0.0.0.0 -v2 --chdir backend
+worker: python manage.py runworker -v2 --workdir backend --app=repositories_monitor --loglevel=info
