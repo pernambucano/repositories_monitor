@@ -3,29 +3,29 @@ from .base import *  # noqa
 
 DEBUG = True
 
-HOST = 'http://localhost:8000'
+HOST = "http://localhost:8000"
 
-SECRET_KEY = 'secret'
+SECRET_KEY = "secret"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'repositories_monitor',
-        'USER': 'new_user',
-        'PASSWORD': 'secret',
-        'HOST': 'localhost',
-        'PORT': '',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "repositories_monitor",
+        "USER": "new_user",
+        "PASSWORD": "secret",
+        "HOST": "localhost",
+        "PORT": "",
     }
 }
 
-STATIC_ROOT = base_dir_join('staticfiles')
-STATIC_URL = '/static/'
+STATIC_ROOT = base_dir_join("staticfiles")
+STATIC_URL = "/static/"
 
-MEDIA_ROOT = base_dir_join('mediafiles')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = base_dir_join("mediafiles")
+MEDIA_URL = "/media/"
 
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 AUTH_PASSWORD_VALIDATORS = []  # allow easy passwords only on local
 
@@ -33,36 +33,28 @@ AUTH_PASSWORD_VALIDATORS = []  # allow easy passwords only on local
 CELERY_TASK_ALWAYS_EAGER = True
 
 # Email
-INSTALLED_APPS += ('naomi',)
-EMAIL_BACKEND = 'naomi.mail.backends.naomi.NaomiBackend'
-EMAIL_FILE_PATH = base_dir_join('tmp_email')
+INSTALLED_APPS += ("naomi",)
+EMAIL_BACKEND = "naomi.mail.backends.naomi.NaomiBackend"
+EMAIL_FILE_PATH = base_dir_join("tmp_email")
 
 # Logging
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(levelname)-8s [%(asctime)s] %(name)s: %(message)s'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {"format": "%(levelname)-8s [%(asctime)s] %(name)s: %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
         },
     },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'standard',
-        },
+    "loggers": {
+        "": {"handlers": ["console"], "level": "INFO"},
+        "celery": {"handlers": ["console"], "level": "INFO"},
     },
-    'loggers': {
-        '': {
-            'handlers': ['console'],
-            'level': 'INFO'
-        },
-        'celery': {
-            'handlers': ['console'],
-            'level': 'INFO'
-        }
-    }
 }
 
 JS_REVERSE_JS_MINIFY = False
