@@ -8,27 +8,15 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { updateRepository } from '../app/repositories-monitor/store/actions/repository'
 
 const Home = (props) => {
-  const options = {
-    connectionTimeout: 40000,
-    maxRetries: 10,
-  };
   const websocketClient = new W3CWebSocket('ws://0bb4d975.ngrok.io/ws/repository');
   useEffect(() => {
-    websocketClient.addEventListener("open", () => {
-      console.log('open');
-    });
-
     websocketClient.addEventListener("message", (event) => {
       const response = JSON.parse(event.data);
       if (response !== undefined && response.message !== undefined && response.message.commits !== undefined) {
         props.updateRepository(response.message);
+        // order it
       }
     });
-
-    websocketClient.addEventListener("close", () => {
-      console.log('close');
-    });
-
   }, []);
 
   return (

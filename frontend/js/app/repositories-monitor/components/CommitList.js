@@ -9,6 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { connect } from 'react-redux';
+import { filterData } from '../services/repository';
+import { showOneRepositoryData } from '../store/actions/visibilityFilter'
+import Link from '@material-ui/core/Link';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
 
 const useStyles = makeStyles({
   root: {
@@ -23,6 +27,7 @@ const CommitList = (props) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -53,7 +58,6 @@ const CommitList = (props) => {
 
   return (
     <div>
-
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
@@ -76,7 +80,11 @@ const CommitList = (props) => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} >
-                        {value}
+                          {column.id == 'repository' ? <Link color="inherit" href="#" onClick={(event) => {
+                            let repositoriesNames = props.repository.map(r => r.repository);
+                            let uniqueRepositoriesNames = repositoriesNames.filter((v, i) => repositoriesNames.indexOf(v) == i);
+                            props.showOneRepositoryData(value, uniqueRepositoriesNames);
+                          }}>{value}</Link> : value}
                         </TableCell>
                       );
                     })}
@@ -103,27 +111,21 @@ const CommitList = (props) => {
   );
 };
 
-const filterData = (commitList, deselectedItems) => {
-  const listWithKeys = commitList.map((d) => {
-    return { ...d, key: d.sha };
-  });
-
-  if (deselectedItems.length > 0) {
-    return listWithKeys.filter((f) => !deselectedItems.includes(f.repository));
-  } else {
-    return listWithKeys;
-  }
-};
 
 const mapStateToProps = (state) => {
   const filteredCommitList = filterData(state.repository, state.visibilityFilter);
+  console.log('calledMapStateToProps', filteredCommitList);
+  console.log('state.visibilityFilter', state.visibilityFilter);
   return {
     repository: filteredCommitList,
   };
 };
 
+const mapDispatchToProps = {
+  showOneRepositoryData,
+}
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CommitList);

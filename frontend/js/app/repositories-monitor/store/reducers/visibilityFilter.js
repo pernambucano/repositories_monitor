@@ -6,6 +6,10 @@ const visibilityFilterReducer = (state = [], action) => {
       return [...state, action.data];
     case actionTypes.SHOW_REPOSITORY_DATA:
       return state.filter((f) => f !== action.data);
+    case actionTypes.SHOW_ONE_REPOSITORY_DATA:
+      console.log(action.data);
+      let stateCopy = [...state, ...action.data.allRepositories];
+      return stateCopy.filter((f) => f !== action.data.repositoryToShow);
     default:
       return state;
   }

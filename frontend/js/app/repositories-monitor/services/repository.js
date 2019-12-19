@@ -10,3 +10,19 @@ export const getRepository = (repositoryPath) => {
   });
 };
 
+
+export const filterData = (commitList, deselectedItems) => {
+  const listWithKeys = commitList.map((d) => {
+    return { ...d, key: d.sha };
+  });
+
+  if (deselectedItems.length > 0) {
+    return listWithKeys.filter((f) => !deselectedItems.includes(f.repository));
+  } else {
+    return listWithKeys;
+  }
+};
+
+export const showOnlyOneRepository = (commitList, repositoryName) => {
+  return commitList.filter(f => f.repository == repositoryName);
+}
