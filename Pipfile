@@ -121,6 +121,7 @@ django-cors-headers = "*"
 maya = "*"
 channels = "*"
 channels-redis = "*"
+daphne = "*"
 
 [requires]
 python_version = "3.7"
