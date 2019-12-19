@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = window.location.host;
+const baseUrl = `${window.location.protocol}//${window.location.host}`;
 const clientId = '40192304617cf91a314d';
 import Cookie from 'js-cookie';
 
