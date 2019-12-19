@@ -46,11 +46,9 @@ def save_commits(commits_request, repo):
 
 
 def add_webhook(repository_path, token):
-    print(">>> ADDING WEB HOOK")
     git = Github(token)
     EVENTS = ["push", "pull_request"]
-    # HOST = config("HOST")
-    HOST = "ce50e772.ngrok.io"
+    HOST = config("HOST")
     try:
         config = {
             "url": "http://{host}/api/{endpoint}".format(host=HOST, endpoint=ENDPOINT),
@@ -59,8 +57,6 @@ def add_webhook(repository_path, token):
 
         repo = git.get_repo(f"{repository_path}")
         response = repo.create_hook("web", config, EVENTS, active=True)
-        print(response)
     except GithubException:
-        print("ADD WEBHOOK EXCEPTION")
         pass
 

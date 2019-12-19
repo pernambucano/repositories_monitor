@@ -2,8 +2,7 @@ import React from 'react';
 import { hot } from 'react-hot-loader';
 
 import Routes from './routes/Routes';
-import SentryBoundary from './utils/SentryBoundary';
-import 'antd/dist/antd.css';
+import SentryBoundary from './utils/SentryBoundary'; 
 
 const App = () => (
   <SentryBoundary>

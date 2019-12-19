@@ -10,7 +10,6 @@ const Search = (props) => {
     const [chips, setChips] = useState([]);
 
     const handleAddChip = (chip) => {
-        console.log(chip);
         setChips(chips.concat(chip));
         const existsAlreadyOnState = props.originalCommitList.find(
             (r) => r.repository == chip

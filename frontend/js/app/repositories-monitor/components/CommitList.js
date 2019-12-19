@@ -113,9 +113,7 @@ const CommitList = (props) => {
 
 
 const mapStateToProps = (state) => {
-  const filteredCommitList = filterData(state.repository, state.visibilityFilter);
-  console.log('calledMapStateToProps', filteredCommitList);
-  console.log('state.visibilityFilter', state.visibilityFilter);
+  const filteredCommitList = filterData(state.repository, state.visibilityFilter); 
   return {
     repository: filteredCommitList,
   };

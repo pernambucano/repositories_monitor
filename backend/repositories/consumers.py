@@ -6,24 +6,18 @@ from django.conf import settings
 
 class RepositoryConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
-        print("CONNECTING")
         await self.accept()
         self.repos = set()
 
     async def disconnect(self, close_code):
-        print("DISCONNECTING")
         for repo_id in list(self.repos):
             try:
                 await self.remove_repo(repo_id)
             except Exception:
                 pass
 
-    # TODO test with commands and than test sending from inside the backend code
-    # TODO test groups too
     async def receive_json(self, content):
-        print("RECEIVING")
         command = content.get("command", None)
-        print("COMMAND " + command)
         try:
             if command == "add":
                 await self.add_repo(content.get("repo"))
@@ -31,19 +25,14 @@ class RepositoryConsumer(AsyncJsonWebsocketConsumer):
                 await self.remove_repo(content.get("repo"))
             elif command == "send":
                 await self.send_message(content.get("repo"), content.get("message"))
-        except Exception:  # TODO use more specific error
+        except Exception:
             await self.send_json({"error": "error"})
 
     async def add_repo(self, repo_id):
-        print("ADDING REPO")
-        print(repo_id)
         self.repos.add(repo_id)
         group_name = repo_id.replace("/", "_")
         await self.channel_layer.group_add(group_name, self.channel_name)
-        print("SENDING JSON RESPONSE")
-        await self.send_json(
-            {"join": str(repo_id), "title": "repo added"}  # TODO use info from repo
-        )
+        await self.send_json({"join": str(repo_id), "title": "repo added"})
 
     async def remove_repo(self, repo_id):
         self.repos.discard(repo_id)

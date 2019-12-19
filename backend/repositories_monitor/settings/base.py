@@ -21,7 +21,7 @@ ADMINS = (("Admin", "demelofernandes.paulo@gmail.com"),)
 
 AUTH_USER_MODEL = "users.User"
 
-ALLOWED_HOSTS = ["ce50e772.ngrok.io", "localhost"]
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "channels",
@@ -149,23 +149,23 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://7aa7b77e.ngrok.io",
-]
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:8000",
+#     "http://127.0.0.1:8000", ",
+# ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-
+# CORS_ORIGIN_ALLOW_ALL = True
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {"hosts": [("127.0.0.1", 6379)],},
+        "CONFIG": {"hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],},
     },
 }
-#
-# CSRF_TRUSTED_ORIGINS = [
-#    'http://localhost',
-#    'http://127.0.0.1',
-# ]
+
+MSG_TYPE_MESSAGE = 0  # For standard messages
+MSG_TYPE_WARNING = 1  # For yellow messages
+MSG_TYPE_ALERT = 2  # For red & dangerous alerts
+MSG_TYPE_MUTED = 3  # For just OK information that doesn't bother users
+MSG_TYPE_ENTER = 4  # For just OK information that doesn't bother users
+MSG_TYPE_LEAVE = 5  # For just OK information that doesn't bother users
