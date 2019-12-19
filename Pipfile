@@ -119,6 +119,8 @@ pygithub = "*"
 rest-social-auth = "*"
 django-cors-headers = "*"
 maya = "*"
+channels = "*"
+channels-redis = "*"
 
 [requires]
 python_version = "3.7"
